@@ -2,7 +2,7 @@ package com.gdim.qualco.entity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "countries")
@@ -30,12 +30,16 @@ public class Countries {
 	
 	@Column(name = "region_id")
 	private int region_id;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
-	private Set<CountryLanguages> countryLanguages;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "countrys")
-	private Set<CountryStats> countryStats;
+
+	@ManyToMany(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+	@JoinTable(name="CountryLanguages",
+			joinColumns = @JoinColumn(name = "country_id"),
+	 		inverseJoinColumns = @JoinColumn(name = "language_id")
+	)
+	private List<Languages> languages;
+
+	@OneToMany(mappedBy = "theCountry")
+	private List<CountryStats> countryStats;
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "region_id", insertable=false, updatable=false)
@@ -97,29 +101,29 @@ public class Countries {
 		this.region_id = region_id;
 	}
 
-//	public Set<CountryLanguages> getCountryLanguages() {
-//		return countryLanguages;
-//	}
-//
-//	public void setCountryLanguages(Set<CountryLanguages> countryLanguages) {
-//		this.countryLanguages = countryLanguages;
-//	}
+	public List<Languages> getLanguages() {
+		return languages;
+	}
 
-//	public Set<CountryStats> getCountryStats() {
-//		return countryStats;
-//	}
-//
-//	public void setCountryStats(Set<CountryStats> countryStats) {
-//		this.countryStats = countryStats;
-//	}
-//
-//	public Regions getRegions() {
-//		return regions;
-//	}
-//
-//	public void setRegions(Regions regions) {
-//		this.regions = regions;
-//	}
+	public void setLanguages(List<Languages> languages) {
+		this.languages = languages;
+	}
+
+	public List<CountryStats> getCountryStats() {
+		return countryStats;
+	}
+
+	public void setCountryStats(List<CountryStats> countryStats) {
+		this.countryStats = countryStats;
+	}
+
+	public Regions getRegions() {
+		return regions;
+	}
+
+	public void setRegions(Regions regions) {
+		this.regions = regions;
+	}
 	
 	
 

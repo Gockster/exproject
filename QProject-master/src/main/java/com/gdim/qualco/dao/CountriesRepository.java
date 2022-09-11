@@ -1,14 +1,22 @@
 package com.gdim.qualco.dao;
 
 import com.gdim.qualco.entity.Countries;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 //@RepositoryRestResource(collectionResourceRel = "countries", path="countries")
 public interface CountriesRepository extends JpaRepository<Countries, Integer>{
+ List<Countries> findByName(String name);
+ Countries findByArea(int area);
 
- Page<Countries> findByCountryId(@Param("id") Integer id, Pageable pageiable);
+
+
+// @Query("select name from countries where country_id = (select country_id from country_stats where gdp =:gd) ")
+// List<Countries> findByCountryStatsGdp(@Param("gd") long gd);
+
+
+
+
 
 }

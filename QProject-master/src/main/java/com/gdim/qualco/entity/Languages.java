@@ -1,15 +1,9 @@
 package com.gdim.qualco.entity;
 
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "languages")
@@ -26,12 +20,14 @@ public class Languages {
 	public int getLanguage_id() {
 		return language_id;
 	}
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "language")
-	private Set<CountryLanguages> countryLanguages;
-	
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "continent")
-//	private Set<Regions> regions;
+
+	@JsonIgnore
+	@ManyToMany(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+	@JoinTable(name="CountryLanguages",
+			joinColumns = @JoinColumn(name = "language_id"),
+			inverseJoinColumns = @JoinColumn(name = "country_id")
+	)
+	private List<Countries> countries;
 
 	public void setLanguage_id(int language_id) {
 		this.language_id = language_id;
@@ -44,7 +40,12 @@ public class Languages {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
-	
 
+	public List<Countries> getCountries() {
+		return countries;
+	}
+
+	public void setCountries(List<Countries> countries) {
+		this.countries = countries;
+	}
 }

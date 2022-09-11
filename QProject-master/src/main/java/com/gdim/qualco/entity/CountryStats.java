@@ -1,11 +1,8 @@
 package com.gdim.qualco.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "country_stats")
@@ -24,9 +21,10 @@ public class CountryStats {
 	@Column(name = "country_id")
 	private int country_id;
 	
-	@ManyToOne(optional=false)
+	@ManyToOne
 	@JoinColumn(name = "country_id", insertable=false, updatable=false)
-	private Countries countrys;
+	@JsonIgnore
+	private Countries theCountry;
 
 	public int getYear() {
 		return year;
@@ -60,14 +58,11 @@ public class CountryStats {
 		this.country_id = country_id;
 	}
 
-	public Countries getCountry() {
-		return countrys;
+	public Countries getTheCountry() {
+		return theCountry;
 	}
 
-	public void setCountry(Countries countries) {
-		this.countrys = countries;
+	public void setTheCountry(Countries theCountry) {
+		this.theCountry = theCountry;
 	}
-	
-	
-
 }

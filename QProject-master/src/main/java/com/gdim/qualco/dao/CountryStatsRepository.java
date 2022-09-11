@@ -6,4 +6,6 @@ import com.gdim.qualco.entity.CountryStats;
 
 public interface CountryStatsRepository extends JpaRepository<CountryStats, Integer>{
 
+
+
 }
