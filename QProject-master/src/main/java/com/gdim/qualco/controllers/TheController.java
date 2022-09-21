@@ -46,20 +46,39 @@ public class TheController {
     @Autowired
     ExpertRepository expertRepository;
 
-    @GetMapping("/countries")
-    public List<Countries> getCountries() {
-        return cre.findAll();
-    }
-
-//    @GetMapping("/countries/gdp/{gdp}")
-//    public List<Countries> getCountryGdp(@PathVariable long gdp) {
-//        return cre.findByCountryStatsGdp(gdp);
+//    @GetMapping("/region/{region}")
+//    public List<Expert> getCountryByRegionId(@PathVariable Long region) {
+//        return expertRepository.findByRegionId(region);
 //    }
 
+    @GetMapping("/region/{region}")
+    public List<Expert> getCountryByRegionName(@PathVariable String region) {
+        return expertRepository.findByRegionName(region);
+    }
+
+    @GetMapping("/between/{yearStart}/{yearEnd}")
+    public List<Expert> getBetween(@PathVariable int yearStart, @PathVariable int yearEnd) {
+        return expertRepository.findByYearBetween(yearStart, yearEnd);
+    }
+
+    @GetMapping("/search/{search}")
+    public List<Expert> getSearch(@PathVariable Optional search) {
+        return expertRepository.findBySearch(search);
+    }
+
+    @GetMapping("/expert")
+    public List<Expert> getTotal() {
+        return expertRepository.findAll();
+    }
 
     @GetMapping("/countries/{id}")
     public Optional<Countries> getCountry(@PathVariable Integer id) {
         return cre.findById(id);
+    }
+
+    @GetMapping("/countries")
+    public List<Countries> getCountries() {
+        return cre.findAll();
     }
 
     @GetMapping("/countries/name/{name}")
@@ -84,16 +103,11 @@ public class TheController {
         return sc.findAll();
     }
 
-    @GetMapping("/expert")
-    public List<Expert> getTotal() {
-        return expertRepository.findAll();
-    }
 
     @GetMapping("/continents")
     public List<Continents> getContinents() {
         return con.findAll();
     }
-
 
     @GetMapping("/guests")
     public List<Guests> getGuests() {

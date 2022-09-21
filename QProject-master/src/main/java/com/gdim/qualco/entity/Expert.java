@@ -30,6 +30,9 @@ public class Expert {
     @Column(name = "gdp")
     private Long gdp;
 
+    @Column(name = "region_id")
+    private Long regionId;
+
     public Long getPopulation() {
         return population;
     }
@@ -52,5 +55,9 @@ public class Expert {
 
     public Long getGdp() {
         return gdp;
+    }
+
+    public Long getRegionId() {
+        return regionId;
     }
 }
